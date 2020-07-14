@@ -12,6 +12,15 @@ Vue.config.productionTip = false
 import $$ from 'jquery';
 Vue.prototype.$$ = $$;
 
+// 导入富文本编辑器
+import VueQuillEditor from 'vue-quill-editor'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+// 注册富文本组件
+Vue.use(VueQuillEditor)
+
+
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 // 主题样式
