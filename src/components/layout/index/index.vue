@@ -45,6 +45,7 @@
 <script>
 import ElAside from "../aside"; //侧边栏
 import { mapGetters } from "vuex";
+import { Logout } from "@/utils/UrlApi/Login";
 export default {
   components: {
     ElAside
@@ -66,9 +67,15 @@ export default {
       });
     },
     outLogin() {
-      sessionStorage.removeItem("userInfo");
-      this.warningMsg("登出成功")
-      this.$router.push("/login");
+      Logout().then(data=>{
+        if(data.data.code==="0000") {
+          sessionStorage.removeItem("userInfo");
+          this.successMsg("登出成功")
+          setTimeout(()=>{
+            this.$router.push("/login");
+          },1000)
+        }
+      })
     }
   }
 };

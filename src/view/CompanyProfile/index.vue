@@ -29,9 +29,9 @@ export default {
     onEditorReady(editor) {}, // 准备编辑器
     onEditorBlur() {}, // 失去焦点事件
     onEditorFocus() {}, // 获得焦点事件
-    onEditorChange() {
+    onEditorChange() {// 内容改变事件
       console.log(123)
-    }, // 内容改变事件
+    }, 
     escapeStringHTML(str) {
       str = str.replace(/&lt;/g, "<");
       str = str.replace(/&gt;/g, ">");

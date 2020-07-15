@@ -7,5 +7,12 @@ module.exports = {
         data
       })
     },
+    Logout:function(data) {
+      return request({
+        url:'/framework/pf/logout',
+        method:'post',
+        data
+      })
+    }
 }
 

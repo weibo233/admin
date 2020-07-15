@@ -18,11 +18,11 @@ export default new Router({
    */
     // 关于我们
     {
-      path: '/billHome',
-      name: 'billHome',
+      path: '/enterpriseInformation',
+      name: 'enterpriseInformation',
       meta: {
         default: "1",
-        title: '关于我们',
+        title: '企业信息',
         isNav: true,
         icon: 'iconfont el-icon-s-help'
       },
@@ -31,76 +31,63 @@ export default new Router({
       },
       children: [
         {
-          path: '/CompanyProfile',
-          name: 'CompanyProfile',
+          path: '/enterpriseInformation',
+          name: 'enterpriseInformation',
           meta: {
-            documentTitle:"公司简介",
-            childTitle: '公司简介',
+            documentTitle:"企业信息",
+            childTitle: '企业信息',
             default: '1-1',
             parentDefault: '1',
           },
           components: {
-            default: () => import("../view/CompanyProfile")
+            default: () => import("../view/enterpriseInformation")
           },
-        },
-        {
-          path: '/corporateCulture',
-          name: 'corporateCulture',
-          meta: {
-            documentTitle:"企业文化",
-            childTitle: '企业文化',
-            default: '1-2',
-            parentDefault: '2',
-          },
-          components: {
-            default: () => import("../view/corporateCulture")
-          },
-        },
+        }
       ]
     },
     // // 招标信息
-    {
-      path: '/tenderInformation',
-      name: 'tenderInformation',
-      meta: {
-        default: "2",
-        title: '招标信息',
-        isNav: true,
-        icon: 'iconfont el-icon-s-help'
-      },
-      components: {
-        default: () => import("../components/layout/index")
-      },
-      children: [
-        {
-          path: '/tenderAnnouncement',
-          name: 'tenderAnnouncement',
-          meta: {
-            documentTitle:"招标公告",
-            childTitle: '招标公告',
-            default: '2-1',
-            parentDefault: '2',
+    // {
+    //   path: '/tenderInformation',
+    //   name: 'tenderInformation',
+    //   meta: {
+    //     default: "2",
+    //     title: '招标信息',
+    //     isNav: true,
+    //     icon: 'iconfont el-icon-s-help'
+    //   },
+    //   components: {
+    //     default: () => import("../components/layout/index")
+    //   },
+    //   children: [
+    //     {
+    //       path: '/tenderAnnouncement',
+    //       name: 'tenderAnnouncement',
+    //       meta: {
+    //         documentTitle:"招标公告",
+    //         childTitle: '招标公告',
+    //         default: '2-1',
+    //         parentDefault: '2',
             
-          },
-          components: {
-            default: () => import("../view/tenderAnnouncement")
-          },
-        },
-        {
-          path: '/dataDownload',
-          name: 'dataDownload',
-          meta: {
-            documentTitle:"资料下载",
-            childTitle: '资料下载',
-            default: '2-2',
-            parentDefault: '2',
-          },
-          components: {
-            default: () => import("../view/dataDownload")
-          },
-        },
-      ]
-    },
+    //       },
+    //       components: {
+    //         default: () => import("../view/tenderAnnouncement")
+    //       },
+    //     },
+    //     {
+    //       path: '/dataDownload',
+    //       name: 'dataDownload',
+    //       meta: {
+    //         documentTitle:"资料下载",
+    //         childTitle: '资料下载',
+    //         default: '2-2',
+    //         parentDefault: '2',
+    //       },
+    //       components: {
+    //         default: () => import("../view/dataDownload")
+    //       },
+    //     },
+    //   ]
+    // },
 
     // // 企业荣誉
     {

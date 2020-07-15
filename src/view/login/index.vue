@@ -3,7 +3,6 @@
     <a
       v-show="false"
       ref="downFile"
-      href="http://tianguoyuan.club/nodejs/vue-cli2%E5%90%8E%E5%8F%B0%E7%AE%A1%E7%90%86/static/images/后台管理模板.zip"
     ></a>
 
     <div class="container">
@@ -14,10 +13,10 @@
         class="demo-ruleForm"
         :rules="relus"
       >
-        <el-form-item label-width="0" prop="username">
+        <el-form-item label-width="0" prop="name">
           <el-input
             type="text"
-            v-model="ruleForm.username"
+            v-model="ruleForm.name"
             placeholder="username"
             autocomplete="off"
           ></el-input>
@@ -72,12 +71,12 @@ export default {
       isDownZip: false,
       bg: {},
       ruleForm: {
-        username: "admin",
+        name: "admin",
         password: "",
         captcha: ""
       },
       relus: {
-        username: [
+        name: [
           { validator: this.validateUsername, required: true, trigger: "blur" }
         ],
         password: [
@@ -110,10 +109,12 @@ export default {
           Login(this.ruleForm)
             .then(data => {
               if (data.data.code === "0000") {
-                this.successMsg(data.data.msg);
+                this.successMsg("正在登陆");
                 let { userName } = data.data.data;
-                sessionStorage.setItem("userInfo", userName);
-                this.$router.push("/");
+                setTimeout(()=>{
+                  sessionStorage.setItem("userInfo", userName);
+                  this.$router.push("/");
+                },1000)
               } else {
                 this.errorMsg(data.data.msg);
                 this._getCaptcha()
