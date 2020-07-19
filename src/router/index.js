@@ -61,18 +61,135 @@ export default new Router({
       },
       children: [
         {
-          path: '/article',
-          name: 'article',
+          path: '/tenderAnnouncement',
+          name: 'tenderAnnouncement',
           meta: {
-            documentTitle:"文章信息",
-            childTitle: '文章信息',
+            documentTitle:"招标公告",
+            childTitle: '招标公告',
             default: '2-1',
             parentDefault: '1',
           },
           components: {
-            default: () => import("../view/article")
+            default: () => import("../view/tenderAnnouncement")
           },
-        }
+        },
+        {
+          path: '/honor',
+          name: 'honor',
+          meta: {
+            documentTitle:"荣誉证书",
+            childTitle: '荣誉证书',
+            default: '2-2',
+            parentDefault: '2',
+          },
+          components: {
+            default: () => import("../view/honor")
+          },
+        },
+        {
+          path:'/qualifications',
+          name:'qualifications',
+          meta:{
+            documentTitle:"资质证书",
+            childTitle: '资质证书',
+            default: '2-3',
+            parentDefault: '2',
+          },
+          components: {
+            default: () => import("../view/qualifications")
+          },
+        },
+        {
+          path: '/law',
+          name: 'law',
+          meta: {
+            documentTitle:"行政法规",
+            childTitle: '行政法规',
+            default: '2-4',
+            parentDefault: '2',
+          },
+          components: {
+            default: () => import("../view/law")
+          },
+        },
+        {
+          path: '/Construction',
+          name: 'Construction',
+          meta: {
+            documentTitle:"建设法律",
+            childTitle: '建设法律',
+            default: '2-5',
+            parentDefault: '2',
+          },
+          components: {
+            default: () => import("../view/Construction")
+          },
+        },
+        {
+          path: '/documents',
+          name: 'documents',
+          meta: {
+            documentTitle:"国务院文件",
+            childTitle: '国务院文件',
+            default: '2-6',
+            parentDefault: '2',
+          },
+          components: {
+            default: () => import("../view/documents")
+          },
+        },
+        {
+          path: '/rules',
+          name: 'rules',
+          meta: {
+            documentTitle:"部门规章",
+            childTitle: '部门规章',
+            default: '2-7',
+            parentDefault: '2',
+          },
+          components: {
+            default: () => import("../view/rules")
+          },
+        },
+        {
+          path: '/local',
+          name: 'local',
+          meta: {
+            documentTitle:"地方法规",
+            childTitle: '地方法规',
+            default: '2-8',
+            parentDefault: '2',
+          },
+          components: {
+            default: () => import("../view/local")
+          },
+        },
+        {
+          path: '/dataDownload',
+          name: 'dataDownload',
+          meta: {
+            documentTitle:"资料下载",
+            childTitle: '资料下载',
+            default: '2-9',
+            parentDefault: '2',
+          },
+          components: {
+            default: () => import("../view/dataDownload")
+          },
+        },
+        {
+          path: '/project',
+          name: 'project',
+          meta: {
+            documentTitle:"工程案例",
+            childTitle: '工程案例',
+            default: '2-10',
+            parentDefault: '2',
+          },
+          components: {
+            default: () => import("../view/project")
+          },
+        },
       ]
     },
     // // 招标信息

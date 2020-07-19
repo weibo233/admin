@@ -217,7 +217,8 @@ export default {
         fax: this.updateCompanyData.fax,
         name: this.updateCompanyData.name,
         phone: this.updateCompanyData.phone,
-        telephone: this.updateCompanyData.telephone
+        telephone: this.updateCompanyData.telephone,
+        companyId:this.updateCompanyData.companyId
       }).then(data => {
         if (data.data.code === "0000") {
           this.successMsg("修改成功");
