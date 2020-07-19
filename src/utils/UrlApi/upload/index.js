@@ -1,6 +1,6 @@
 import request from "../../HttpServe";
 module.exports = {
-    upLoad:function(data) {
+    policy:function(data) {
       return request({
         url:'/framework/pf/file/getPostUrl',
         method:'post',

@@ -37,7 +37,7 @@ Vue.prototype.successMsg = function(msg){
     title: '成功',
     message: `${msg}`,
     type: 'success',
-    duration: 1000
+    duration: 2000
   });
 }
 Vue.prototype.errorMsg = function(msg){

@@ -45,6 +45,36 @@ export default new Router({
         }
       ]
     },
+
+    // 文章
+    {
+      path: '/article',
+      name: 'article',
+      meta: {
+        default: "2",
+        title: '文章信息',
+        isNav: true,
+        icon: 'iconfont el-icon-s-help'
+      },
+      components: {
+        default: () => import("../components/layout/index")
+      },
+      children: [
+        {
+          path: '/article',
+          name: 'article',
+          meta: {
+            documentTitle:"文章信息",
+            childTitle: '文章信息',
+            default: '2-1',
+            parentDefault: '1',
+          },
+          components: {
+            default: () => import("../view/article")
+          },
+        }
+      ]
+    },
     // // 招标信息
     // {
     //   path: '/tenderInformation',
@@ -90,142 +120,143 @@ export default new Router({
     // },
 
     // // 企业荣誉
-    {
-      path: '/certificate',
-      name: 'certificate',
-      meta: {
-        default: "3",
-        title: '企业荣誉',
-        isNav: true,
-        icon: 'iconfont el-icon-s-help'
-      },
-      components: {
-        default: () => import("../components/layout/index")
-      },
-      children: [
-        {
-          path: '/honor',
-          name: 'honor',
-          meta: {
-            documentTitle:"荣誉证书",
-            childTitle: '荣誉证书',
-            default: '3-1',
-            parentDefault: '3',
-          },
-          components: {
-            default: () => import("../view/honor")
-          },
-        },
-        {
-          path: '/qualifications',
-          name: 'qualifications',
-          meta: {
-            documentTitle:"资质证书",
-            childTitle: '资质证书',
-            default: '3-2',
-            parentDefault: '3',
-          },
-          components: {
-            default: () => import("../view/qualifications")
-          },
-        },
-        {
-          path: '/case',
-          name: 'case',
-          meta: {
-            documentTitle:'案例展示',
-            childTitle: '案例展示',
-            default: '3-3',
-            parentDefault: '3',
-          },
-          components: {
-            default: () => import("../view/case")
-          },
-        },
-      ]
-    },
+    // {
+    //   path: '/certificate',
+    //   name: 'certificate',
+    //   meta: {
+    //     default: "3",
+    //     title: '企业荣誉',
+    //     isNav: true,
+    //     icon: 'iconfont el-icon-s-help'
+    //   },
+    //   components: {
+    //     default: () => import("../components/layout/index")
+    //   },
+    //   children: [
+    //     {
+    //       path: '/honor',
+    //       name: 'honor',
+    //       meta: {
+    //         documentTitle:"荣誉证书",
+    //         childTitle: '荣誉证书',
+    //         default: '3-1',
+    //         parentDefault: '3',
+    //       },
+    //       components: {
+    //         default: () => import("../view/honor")
+    //       },
+    //     },
+    //     {
+    //       path: '/qualifications',
+    //       name: 'qualifications',
+    //       meta: {
+    //         documentTitle:"资质证书",
+    //         childTitle: '资质证书',
+    //         default: '3-2',
+    //         parentDefault: '3',
+    //       },
+    //       components: {
+    //         default: () => import("../view/qualifications")
+    //       },
+    //     },
+    //     {
+    //       path: '/case',
+    //       name: 'case',
+    //       meta: {
+    //         documentTitle:'案例展示',
+    //         childTitle: '案例展示',
+    //         default: '3-3',
+    //         parentDefault: '3',
+    //       },
+    //       components: {
+    //         default: () => import("../view/case")
+    //       },
+    //     },
+    //   ]
+    // },
 
     // // 政策文件
-    {
-      path: '/policy',
-      name: 'policy',
-      meta: {
-        default: "4",
-        title: '政策文件',
-        isNav: true,
-        icon: 'iconfont el-icon-s-help'
-      },
-      components: {
-        default: () => import("../components/layout/index")
-      },
-      children: [
-        {
-          path: '/law',
-          name: 'law',
-          meta: {
-            documentTitle:"行政法规",
-            childTitle: '行政法规',
-            default: '4-1',
-            parentDefault: '4',
-          },
-          components: {
-            default: () => import("../view/law")
-          },
-        },
-        {
-          path: '/Construction ',
-          name: 'Construction ',
-          meta: {
-            documentTitle:'建设法律',
-            childTitle: '建设法律',
-            default: '4-2',
-            parentDefault: '4',
-          },
-          components: {
-            default: () => import("../view/Construction")
-          },
-        },
-        {
-          path: '/documents',
-          name: 'documents',
-          meta: {
-            documentTitle:'国务院文件',
-            childTitle: '国务院文件',
-            default: '4-3',
-            parentDefault: '4',
-          },
-          components: {
-            default: () => import("../view/documents")
-          },
-        },
-        {
-          path: '/rules',
-          name: 'rules',
-          meta: {
-            documentTitle:'部门规章',
-            childTitle: '部门规章',
-            default: '4-4',
-            parentDefault: '4',
-          },
-          components: {
-            default: () => import("../view/rules")
-          },
-        },
-        {
-          path: '/local',
-          name: 'local',
-          meta: {
-            documentTitle:'地方法规',
-            childTitle: '地方法规',
-            default: '4-5',
-            parentDefault: '4',
-          },
-          components: {
-            default: () => import("../view/local")
-          },
-        },
-      ]
-    },
+    // {
+    //   path: '/policy',
+    //   name: 'policy',
+    //   meta: {
+    //     default: "4",
+    //     title: '政策文件',
+    //     isNav: true,
+    //     icon: 'iconfont el-icon-s-help'
+    //   },
+    //   components: {
+    //     default: () => import("../components/layout/index")
+    //   },
+    //   children: [
+    //     {
+    //       path: '/law',
+    //       name: 'law',
+    //       meta: {
+    //         documentTitle:"行政法规",
+    //         childTitle: '行政法规',
+    //         default: '4-1',
+    //         parentDefault: '4',
+    //       },
+    //       components: {
+    //         default: () => import("../view/law")
+    //       },
+    //     },
+    //     {
+    //       path: '/Construction ',
+    //       name: 'Construction ',
+    //       meta: {
+    //         documentTitle:'建设法律',
+    //         childTitle: '建设法律',
+    //         default: '4-2',
+    //         parentDefault: '4',
+    //       },
+    //       components: {
+    //         default: () => import("../view/Construction")
+    //       },
+    //     },
+    //     {
+    //       path: '/documents',
+    //       name: 'documents',
+    //       meta: {
+    //         documentTitle:'国务院文件',
+    //         childTitle: '国务院文件',
+    //         default: '4-3',
+    //         parentDefault: '4',
+    //       },
+    //       components: {
+    //         default: () => import("../view/documents")
+    //       },
+    //     },
+    //     {
+    //       path: '/rules',
+    //       name: 'rules',
+    //       meta: {
+    //         documentTitle:'部门规章',
+    //         childTitle: '部门规章',
+    //         default: '4-4',
+    //         parentDefault: '4',
+    //       },
+    //       components: {
+    //         default: () => import("../view/rules")
+    //       },
+    //     },
+    //     {
+    //       path: '/local',
+    //       name: 'local',
+    //       meta: {
+    //         documentTitle:'地方法规',
+    //         childTitle: '地方法规',
+    //         default: '4-5',
+    //         parentDefault: '4',
+    //       },
+    //       components: {
+    //         default: () => import("../view/local")
+    //       },
+    //     },
+    //   ]
+    // },
+
    
     {
       path:'/login',

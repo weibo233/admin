@@ -64,7 +64,7 @@ export default {
         param.append('signature',`${signature}`);
         param.append('file',photo);
 
-        console.log(param.get('file'),"----param")
+        // console.log(param.get('file'),"----param")
         // this.postAli(url,param).then(res=>{
         //     console.log(res,'------res')
         // }).catch(error=>{
