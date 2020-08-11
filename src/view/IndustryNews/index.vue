@@ -13,13 +13,20 @@
     </el-row>
     <div class="pb">
       <el-table :data="tableData">
-        <el-table-column prop="articleId" label="文章ID"></el-table-column>
-        <el-table-column prop="introduce" label="简介"></el-table-column>
+        <el-table-column label="封面">
+          <template slot-scope="scope">
+            <viewer>
+              <img :src="scope.row.cover" style="height: 50px" alt="" />
+            </viewer>
+          </template>
+        </el-table-column>
         <el-table-column prop="title" label="标题"></el-table-column>
+        <!-- <el-table-column prop="articleId" label="文章ID"></el-table-column> -->
+        <!-- <el-table-column prop="introduce" label="简介"></el-table-column> -->
         <el-table-column prop="author" label="作者"></el-table-column>
         <el-table-column prop="categoryId" label="类别">
           <template slot-scope="scope">
-            {{ scope.row.categoryId == "13" ? "建设法律" : "---" }}
+            {{ scope.row.categoryId == "19" ? "行业新闻" : "---" }}
           </template>
         </el-table-column>
         <el-table-column label="操作" fixed="right" width="100">
@@ -51,9 +58,9 @@
     </div>
     <!-- 新增招标公告信息弹框 -->
     <el-dialog
-      title="新增关于建设法律文件"
+      title="行业新闻新增"
       :visible.sync="dialogVisible"
-       width="80%"
+      width="80%"
       :before-close="handleClose"
     >
       <el-form>
@@ -68,14 +75,17 @@
               <el-input v-model="DetailForm.title"></el-input>
             </el-form-item>
           </el-col>
-          <!-- <el-col :span="24">
+          <el-col :span="24">
             <el-form-item label-width="100px" label="简介:">
               <el-input
                 v-model="DetailForm.introduce"
+                  placeholder=
+                "建筑面积：1000000平方
+                占地面积：6000000平方"
                 type="textarea"
               ></el-input>
             </el-form-item>
-          </el-col> -->
+          </el-col>
           <el-col :span="12">
             <el-form-item label="发布时间:" label-width="100px">
               <el-date-picker
@@ -86,6 +96,11 @@
                 value-format="yyyy-MM-dd HH:mm:SS"
               >
               </el-date-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item label="上传封面:" label-width="100px">
+              <upload v-model="DetailForm.cover"></upload>
             </el-form-item>
           </el-col>
           <el-col :span="24">
@@ -103,7 +118,7 @@
     <del-dialog
       title="是否要删除该数据"
       :dialogVisible="delDialogVisble"
-       @deter="DelDetailitem"
+      @deter="DelDetailitem"
       @cancel="cancel"
     ></del-dialog>
     <detail-dialog
@@ -125,13 +140,15 @@ import {
 } from "@/utils/UrlApi/article";
 import editor from "@/components/Editor";
 import delDialog from "@/components/myDialog";
-import detailDialog from "@/components/detailDialog";
+import detailDialog from "@/components/otherdialog";
+import upload from "@/components/upload/upload";
 export default {
-  name: "Construction",
+  name: "rules",
   components: {
     delDialog,
     detailDialog,
-    editor
+    editor,
+    upload
   },
   data() {
     return {
@@ -144,7 +161,7 @@ export default {
       DetailForm: {
         articleId: "", //文章ID
         author: "佚名", //作者
-        categoryId: "13", //分类ID    6-招标公告，7-资料下载，8-资质证书，9-荣誉证书，10-工程案例，12-行政法规，13-建设法律，14-国务院文件，15-部门规章，16-地方法规
+        categoryId: "19", //分类ID    6-招标公告，7-资料下载，8-资质证书，9-荣誉证书，10-工程案例，12-行政法规，13-建设法律，14-国务院文件，15-部门规章，17-企业新闻，19-行业新闻，21-人才招聘
         content: "", //内容
         cover: "", //封面地址
         introduce: "", //简介
@@ -153,7 +170,7 @@ export default {
         title: "" //标题
       },
       searchForm: {
-        categoryId: "13",
+        categoryId: "19",
         pageSize: 5,
         targetPage: 1,
         pageCount: 1
@@ -181,10 +198,10 @@ export default {
         for (let key in this.DetailForm) {
           this.DetailForm[key] = "";
         }
-        this.DetailForm.categoryId = "13";
+        this.DetailForm.categoryId = "19";
         this.DetailForm.releaseTime = new Date();
-        this.DetailForm.author = "佚名"
-        this.DetailForm.content = ""
+        this.DetailForm.author = "佚名";
+        this.searchForm.content = "";
         this.getPageData();
       });
     },
@@ -243,7 +260,7 @@ export default {
     //编辑确认
     updateDetailOut(form) {
       updateDetail(form).then(res => {
-        if (res.data.code === "9999") {
+        if (res.data.code === "0000") {
           this.successMsg("修改成功");
           this.detailDialogVisble = false;
           this.getPageData();

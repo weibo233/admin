@@ -13,21 +13,26 @@
     </el-row>
     <div class="pb">
       <el-table :data="tableData">
-        <el-table-column prop="articleId" label="文章ID"></el-table-column>
-        <el-table-column prop="introduce" label="简介"></el-table-column>
-        <el-table-column prop="title" label="标题"></el-table-column>
-        <el-table-column prop="author" label="作者"></el-table-column>
+        <!-- <el-table-column prop="articleId" label="文章ID"></el-table-column> -->
         <el-table-column prop="categoryId" label="类别">
           <template slot-scope="scope">
-            {{ scope.row.categoryId == "6" ? "招标公告" : "招标公告" }}
+            {{ scope.row.categoryId == "6" ? "招标公告" : "---" }}
           </template>
         </el-table-column>
+        <el-table-column prop="title" label="标题"></el-table-column>
+        <el-table-column prop="introduce" label="简介"></el-table-column>
+        <el-table-column prop="author" label="作者"></el-table-column>
         <el-table-column label="操作" fixed="right" width="100">
           <template slot-scope="scope">
-            <el-button @click="Del(scope.row)" type="text" size="small"
+            <el-button @click="Del(scope.row.articleId)" type="text" size="small"
               >删除</el-button
             >
-            <el-button  @click="handleClick(scope.row.articleId)" type="text" size="small" >编辑</el-button>
+            <el-button
+              @click="handleClick(scope.row.articleId)"
+              type="text"
+              size="small"
+              >编辑</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
@@ -45,7 +50,7 @@
     <el-dialog
       title="新增招标公告信息"
       :visible.sync="dialogVisible"
-      width="50%"
+       width="80%"
       :before-close="handleClose"
     >
       <el-form>
@@ -61,14 +66,6 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label-width="100px" label="简介:">
-              <el-input
-                v-model="DetailForm.introduce"
-                type="textarea"
-              ></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
             <el-form-item label="发布时间:" label-width="100px">
               <el-date-picker
                 v-model="DetailForm.releaseTime"
@@ -80,13 +77,17 @@
               </el-date-picker>
             </el-form-item>
           </el-col>
+           <el-col :span="24">
+            <el-form-item label-width="100px" label="简介:">
+              <el-input
+                v-model="DetailForm.introduce"
+                type="textarea"
+              ></el-input>
+            </el-form-item>
+          </el-col>
           <el-col :span="24">
             <el-form-item label="内容:" label-width="100px">
-              <quill-editor
-                ref="business"
-                v-model="DetailForm.content"
-                :options="editorOption"
-              ></quill-editor>
+              <editor v-model="DetailForm.content"></editor>
             </el-form-item>
           </el-col>
         </el-row>
@@ -96,37 +97,52 @@
         <el-button type="primary" @click="submit">确 定</el-button>
       </span>
     </el-dialog>
-    <del-dialog title="是否要删除该数据" :dialogVisible="delDialogVisble" @cancel="cancel"></del-dialog>
-    <detail-dialog ref="detailDialogPorps" title="编辑招标公告信息" :dialogVisible="detailDialogVisble" @cancel="cancel" @updateDetail="updateDetailOut"></detail-dialog>
+    <del-dialog
+      title="是否要删除该数据"
+      :dialogVisible="delDialogVisble"
+      @deter="DelDetailitem"
+      @cancel="cancel"
+    ></del-dialog>
+    <detail-dialog
+      ref="detailDialogPorps"
+      title="编辑招标公告信息"
+      :dialogVisible="detailDialogVisble"
+      @cancel="cancel"
+      @updateDetail="updateDetailOut"
+    ></detail-dialog>
   </div>
 </template>
 
 <script>
-import { getDetail, getPage, updateDetail } from "@/utils/UrlApi/article";
+import { getDetail, getPage, updateDetail,delDetail } from "@/utils/UrlApi/article";
 import delDialog from "@/components/myDialog";
 import detailDialog from "@/components/detailDialog";
+import editor from "@/components/Editor";
 export default {
   name: "tenderAnnouncement",
-  components:{
+  components: {
     delDialog,
-    detailDialog
+    detailDialog,
+    editor
   },
   data() {
     return {
       tableData: [],
       dialogVisible: false,
-      delDialogVisble:false,//删除弹框
-      detailDialogVisble:false,//编辑弹框
+      delDialogVisble: false, //删除弹框
+      detailDialogVisble: false, //编辑弹框
       editorOption: {},
+      delData:"",//将要删除的
       DetailForm: {
         articleId: "", //文章ID
-        author: "", //作者
-        categoryId: "6", //分类ID    6-招标公告，7-资料下载，9-荣誉证书，10-工程案例，12-行政法规，13-建设法律，14-国务院文件，15-部门规章，
+        author: "佚名", //作者
+        categoryId: "6", //分类ID    6-招标公告，7-资料下载，8-资质证书，9-荣誉证书，10-工程案例，12-行政法规，13-建设法律，14-国务院文件，15-部门规章，
         content: "", //内容
         cover: "", //封面地址
         introduce: "", //简介
         pictures: "", //图片集地址
-        releaseTime: "", //发布时间
+        releaseTime: new Date(), //发布时间
+        onlineFlag:1,//线上线下
         title: "" //标题
       },
       searchForm: {
@@ -142,7 +158,8 @@ export default {
     getPageData() {
       getPage(this.searchForm).then(res => {
         this.tableData = res.data.data.resultList;
-        this.searchForm.pageCount = res.data.data.recordCount;
+        this.searchForm.pageCount = res.data.data.recordCount*1;
+        this.searchForm.pageSize = res.data.data.pageSize*1
       });
     },
     //增删改查
@@ -150,6 +167,7 @@ export default {
       updateDetail(this.DetailForm).then(res => {
         if (res.data.code === "0000") {
           this.successMsg("添加成功");
+          this.getPageData();
         } else {
           this.errorMsg(res.data.msg);
         }
@@ -158,7 +176,9 @@ export default {
           this.DetailForm[key] = "";
         }
         this.DetailForm.categoryId = "6";
-        console.log(res, "---res");
+        this.DetailForm.releaseTime = new Date();
+        this.searchForm.author = "佚名"
+        this.searchForm.content = ""
       });
     },
     getDetailData() {
@@ -189,29 +209,43 @@ export default {
       this.searchForm.targetPage = val;
       this.getPageData();
     },
-    //删除
-    Del(data){
-      this.delDialogVisble = true
+    //删除弹框
+    Del(data) {
+      this.delDialogVisble = true;
+      this.delData= data
+    },
+    DelDetailitem() {
+      let delArr = []
+      delArr.push(this.delData)
+      delDetail({
+        ids:delArr
+      }).then(res=>{
+        if(res.data.code == "0000") {
+          this.successMsg("删除成功")
+          this.delDialogVisble = false
+          this.getPageData()
+        }
+      })
     },
     //编辑
     handleClick(data) {
-      this.detailDialogVisble = true
-      this.$refs.detailDialogPorps.getarticleId(data)
+      this.detailDialogVisble = true;
+      this.$refs.detailDialogPorps.getarticleId(data);
     },
     //编辑确认
     updateDetailOut(form) {
-      updateDetail(form).then(res=>{
-             if(res.data.code === "9999") {
-                  this.successMsg("修改成功")
-                  this.detailDialogVisble = false
-                  this.getPageData()
-             }
-         })
+      updateDetail(form).then(res => {
+        if (res.data.code === "0000") {
+          this.successMsg("修改成功");
+          this.detailDialogVisble = false;
+          this.getPageData();
+        }
+      });
     },
     //取消
-    cancel(){
-      this.delDialogVisble = false
-      this.detailDialogVisble =false
+    cancel() {
+      this.delDialogVisble = false;
+      this.detailDialogVisble = false;
     }
   },
   created() {

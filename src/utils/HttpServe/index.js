@@ -1,6 +1,7 @@
 import axios from 'axios';
 axios.defaults.withCredentials=true
-axios.defaults.baseURL = 'http://qiuchl.natapp1.cc'
+// axios.defaults.baseURL = 'http://qiuchl.natapp1.cc'
+// axios.defaults.baseURL = 'http://39.96.4.225'
 // create an axios instance
 
 //响应拦截

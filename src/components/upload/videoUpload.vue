@@ -8,7 +8,7 @@
         <div class="pic_img_box">
           <el-upload
             class="avatar-uploader"
-            action="https://wujiandong1.oss-cn-hangzhou.aliyuncs.com"
+            :action="dataObj.host"
             width="100%"
             :data="dataObj"
             v-bind:on-progress="uploadVideoProcess"

@@ -42,7 +42,33 @@ export default new Router({
           components: {
             default: () => import("../view/enterpriseInformation")
           },
-        }
+        },
+        {
+          path:'/register',
+          name: 'register',
+          meta:{
+            documentTitle:"修改密码",
+            childTitle: '修改密码',
+            default: '1-2',
+            parentDefault: '1',
+          },
+          components:{
+            default: ()=>import("../view/register")
+          }
+        },
+        // {
+        //   path:'/banner',
+        //   name:"banner",
+        //   meta:{
+        //     documentTitle:"轮播图维护",
+        //     childTitle:"轮播图维护",
+        //     default:"1-3",
+        //     parentDefault:"1",
+        //   },
+        //   components:{
+        //     default:() =>import("../view/banner")
+        //   }
+        // }
       ]
     },
 
@@ -188,6 +214,58 @@ export default new Router({
           },
           components: {
             default: () => import("../view/project")
+          },
+        },
+        {
+          path: '/CorporateNews',
+          name: 'CorporateNews',
+          meta: {
+            documentTitle:"企业新闻",
+            childTitle: '企业新闻',
+            default: '2-12',
+            parentDefault: '2',
+          },
+          components: {
+            default: () => import("../view/CorporateNews")
+          },
+        },
+        {
+          path: '/industryNews',
+          name: 'industryNews',
+          meta: {
+            documentTitle:"行业新闻",
+            childTitle: '行业新闻',
+            default: '2-13',
+            parentDefault: '2',
+          },
+          components: {
+            default: () => import("../view/industryNews")
+          },
+        },
+        {
+          path: '/TalentRecruitment',
+          name: 'TalentRecruitment',
+          meta: {
+            documentTitle:"人才招聘",
+            childTitle: '人才招聘',
+            default: '2-14',
+            parentDefault: '2',
+          },
+          components: {
+            default: () => import("../view/TalentRecruitment")
+          },
+        },
+        {
+          path: '/charging',
+          name: 'charging',
+          meta: {
+            documentTitle:"收费标准",
+            childTitle: '收费标准',
+            default: '2-15',
+            parentDefault: '2',
+          },
+          components: {
+            default: () => import("../view/charging")
           },
         },
       ]
@@ -384,17 +462,6 @@ export default new Router({
       },
       components:{
         default: ()=>import("../view/login")
-      }
-    },
-    {
-      path:'/register',
-      name: 'register',
-      meta:{
-        documentTitle:"注册",
-        isNav:false
-      },
-      components:{
-        default: ()=>import("../view/register")
       }
     },
     // welcome

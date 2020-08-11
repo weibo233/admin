@@ -13,6 +13,13 @@ module.exports = {
         method:'post',
         data
       })
+    },
+    updatePwd:function(data) {
+      return request({
+        url:'/framework/pf/user/updatePwd',
+        method:'post',
+        data
+      })
     }
 }
 

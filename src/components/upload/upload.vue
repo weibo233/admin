@@ -1,9 +1,12 @@
 <template> 
   <div>
     <el-upload
+     v-loading="loading"
+    element-loading-spinner="el-icon-loading"
+    element-loading-background="rgba(0, 0, 0, 0.8)"
       :action="dataObj.host"
       :data="dataObj"
-      list-type="picture"
+      list-type="text"
       :multiple="false" :show-file-list="showFileList"
       :file-list="fileList"
       :before-upload="beforeUpload"
@@ -11,10 +14,10 @@
       :on-success="handleUploadSuccess"
       :on-preview="handlePreview">
       <el-button size="small" type="success">点击上传</el-button>
-      <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过10MB</div>
+      <div slot="tip" class="el-upload__tip">只能上传doc/world文件，且不超过10MB</div>
     </el-upload>
     <el-dialog :visible.sync="dialogVisible">
-      <img width="100%" :src="fileList[0].url" alt="">
+        <img :src="fileList[0].url" alt="">
     </el-dialog>
   </div>
 </template>
@@ -54,6 +57,7 @@ import { getUUID } from '@/utils'
     },
     data() {
       return {
+        loading:false,
         dataObj: {
           policy: '',
           signature: '',
@@ -80,6 +84,7 @@ import { getUUID } from '@/utils'
         this.dialogVisible = true;
       },
       beforeUpload(file) {
+        this.loading = true
         let _self = this;
         return new Promise((resolve, reject) => {
           policy().then(response => {
@@ -103,12 +108,20 @@ import { getUUID } from '@/utils'
         this.fileList.pop();
         this.fileList.push({name: file.name, url: this.dataObj.host + '/' + this.dataObj.key.replace("${filename}",file.name) });
         this.emitInput(this.fileList[0].url);
+        this.loading = false
       }
     }
   }
 </script>
-<style>
-
+<style lang="scss" scoped>
+.el-dialog{
+  .el-dialog__body{
+    background: brown;
+    img{
+      width: 100%;
+    }
+  }
+}
 </style>
 
 

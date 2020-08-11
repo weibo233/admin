@@ -2,82 +2,30 @@
   <div id="entInf">
     <el-form>
       <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="公司主体信息" name="first">
-          <el-row
-            v-for="item in Form"
-            :key="item.phone"
-            style="margin-bottom:50px;border-bottom:1px dashed #000;"
-          >
-            <!-- 公司信息 -->
-            <el-col :span="24">
-              <el-form-item label="编辑公司:" label-width="100px">
+        <el-tab-pane label="公司信息" name="first">
+          <el-table :data="Form">
+            <el-table-column label="公司名称" prop="name"></el-table-column>
+            <el-table-column label="公司地址" prop="address"></el-table-column>
+            <el-table-column label="邮箱" prop="email"></el-table-column>
+            <el-table-column label="传真" prop="fax"></el-table-column>
+            <el-table-column label="手机号" prop="phone"></el-table-column>
+            <el-table-column
+              label="联系电话"
+              prop="telephone"
+            ></el-table-column>
+            <el-table-column label="操作" width="100">
+              <template slot-scope="scope" fixed="right">
                 <el-button
+                  @click="edit(scope.row)"
                   type="primary"
-                  @click="
-                    item.disabled = false;
-                    getUpdateCompany(item);
-                  "
-                  :disabled="idx === '' ? false : true"
-                  >编辑公司信息</el-button
+                  size="small"
+                  >编辑</el-button
                 >
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="公司名称:" label-width="100px">
-                <el-input v-model="item.name" :disabled="item.disabled">
-                </el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="公司地址:" label-width="100px">
-                <el-input
-                  v-model="item.address"
-                  :disabled="item.disabled"
-                ></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="邮箱:" label-width="100px">
-                <el-input
-                  v-model="item.email"
-                  :disabled="item.disabled"
-                ></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="传真:" label-width="100px">
-                <el-input
-                  v-model="item.fax"
-                  :disabled="item.disabled"
-                ></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="手机号:" label-width="100px">
-                <el-input
-                  v-model="item.phone"
-                  :disabled="item.disabled"
-                ></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="联系电话:" label-width="100px">
-                <el-input
-                  v-model="item.telephone"
-                  :disabled="item.disabled"
-                ></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row style="text-align:center;">
-            <el-col>
-              <el-button @click="updateCompany" type="primary"
-                >更新公司信息</el-button
-              >
-            </el-col>
-          </el-row>
+              </template>
+            </el-table-column>
+          </el-table>
         </el-tab-pane>
-        <el-tab-pane label="公司信息" name="second">
+        <el-tab-pane label="公司主体信息" name="second">
           <!-- 公司主体信息 -->
           <el-row class="edit">
             <el-col :span="24">
@@ -101,7 +49,7 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row class="edit">
+          <!-- <el-row class="edit">
             <el-col :span="24">
               <el-form-item label="业务范围:" label-width="100px">
                 <quill-editor
@@ -111,8 +59,8 @@
                 ></quill-editor>
               </el-form-item>
             </el-col>
-          </el-row>
-          <el-row class="edit">
+          </el-row> -->
+          <!-- <el-row class="edit">
             <el-col :span="24">
               <el-form-item label="企业logo:" label-width="100px">
                 <single-upload
@@ -122,11 +70,14 @@
                 ></single-upload>
               </el-form-item>
             </el-col>
-          </el-row>
+          </el-row> -->
           <el-row class="edit">
             <el-col :span="24">
               <el-form-item label="宣传视频:" label-width="100px">
-                <video-upload v-model="subForm.strify" :value="subForm.strify"></video-upload>
+                <video-upload
+                  v-model="subForm.strify"
+                  :value="subForm.strify"
+                ></video-upload>
               </el-form-item>
             </el-col>
           </el-row>
@@ -140,6 +91,46 @@
         </el-tab-pane>
       </el-tabs>
     </el-form>
+    <el-dialog title="编辑公司信息"  :visible.sync="dialogVisible">
+      <el-form>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="公司名称:" label-width="100px">
+              <el-input v-model="willUpdate.name"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="公司地址:" label-width="100px">
+              <el-input v-model="willUpdate.address"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="邮箱:" label-width="100px">
+              <el-input v-model="willUpdate.email"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="传真:" label-width="100px">
+              <el-input v-model="willUpdate.fax"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="手机号:" label-width="100px">
+              <el-input v-model="willUpdate.phone"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="联系电话:" label-width="100px">
+              <el-input v-model="willUpdate.telephone"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-form-item label-width="250px">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="submit">确 定</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -158,22 +149,43 @@ export default {
   },
   data() {
     return {
-      editorOption: {},
+         editorOption: {
+        modules: {
+          toolbar: [
+            ["bold", "italic", "underline", "strike"], //加粗，斜体，下划线，删除线
+            ["blockquote", "code-block"], //引用，代码块
+
+            [{ header: 1 }, { header: 2 }], // 标题，键值对的形式；1、2表示字体大小
+            [{ list: "ordered" }, { list: "bullet" }], //列表
+            [{ script: "sub" }, { script: "super" }], // 上下标
+            [{ indent: "-1" }, { indent: "+1" }], // 缩进
+            [{ direction: "rtl" }], // 文本方向
+
+            [{ size: ["small", false, "large", "huge"] }], // 字体大小
+            [{ header: [1, 2, 3, 4, 5, 6, false] }], //几级标题
+
+            [{ color: [] }, { background: [] }], // 字体颜色，字体背景颜色
+            [{ font: [] }], //字体
+            [{ align: [] }], //对齐方式
+
+            ["clean"] //清除字体样式
+            // ['image','video']        //上传图片、上传视频
+          ]
+        }
+      },
       idx: "", //公司下标
       activeName: "first",
-      Form: [
-        {
-          address: "", //公司地址
-          company_id: "", //公司标识
-          email: "", //公司邮箱
-          fax: "", //传真
-          name: "", //企业名称
-          phone: "", //企业手机号
-          telephone: "" //联系电话
-        }
-      ],
-      //将要更改的公司信息
-      updateCompanyData: {},
+      dialogVisible: false,
+      Form: [],//公司信息表格数据
+      willUpdate: {
+        address: "", //公司地址
+        company_id: "", //公司标识
+        email: "", //公司邮箱
+        fax: "", //传真
+        name: "", //企业名称
+        phone: "", //企业手机号
+        telephone: "" //联系电话
+      },
       subForm: {
         business: "", //业务范围
         culture: "", //企业文化
@@ -187,7 +199,19 @@ export default {
   },
   methods: {
     handleClick(tab, event) {
-      console.log(tab, event);
+      console.log(tab, 111);
+    },
+    edit(item) {
+      console.log(item,"item")
+      // this.dialogVisible = true
+      this.willUpdate = item
+      this.dialogVisible = true
+    },
+    del() {
+
+    },
+    submit() {
+      this.updateCompany();//更改公司信息
     },
     //获取公司信息
     get() {
@@ -201,29 +225,13 @@ export default {
         }
       });
     },
-    //获取将要修改的公司信息
-    getUpdateCompany(item) {
-      this.updateCompanyData = item;
-      this.idx = item.btndis;
-      this.successMsg("每次编辑只能编辑一个公司，提交后可再次编辑");
-      console.log(this.updateCompanyData);
-    },
     //修改公司数据
     updateCompany() {
-      this.updateCompanyData;
-      updateEntInf({
-        address: this.updateCompanyData.address,
-        email: this.updateCompanyData.email,
-        fax: this.updateCompanyData.fax,
-        name: this.updateCompanyData.name,
-        phone: this.updateCompanyData.phone,
-        telephone: this.updateCompanyData.telephone,
-        companyId:this.updateCompanyData.companyId
-      }).then(data => {
+      updateEntInf(this.willUpdate).then(data => {
         if (data.data.code === "0000") {
+          this.dialogVisible = false
           this.successMsg("修改成功");
           this.get();
-          this.idx = "";
         } else {
           this.errorMsg(data.data.msg);
         }

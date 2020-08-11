@@ -4,8 +4,8 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store';
-import './assets/style/index.scss'
-import './assets/style/default.scss'
+import '@/assets/style/index.scss'
+import '@/assets/style/default.scss'
 import 'normalize.css/normalize.css'
 Vue.config.productionTip = false
 
@@ -24,7 +24,7 @@ Vue.use(VueQuillEditor)
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 // 主题样式
-import './assets/style/element-variables.scss'
+import '@/assets/style/element-variables.scss'
 // 默认primary
 Vue.use(ElementUI);
 // 进度条
@@ -33,6 +33,9 @@ import 'nprogress/nprogress.css'
 
 import Viewer from 'v-viewer'
 import 'viewerjs/dist/viewer.css'
+import "babel-polyfill"
+
+// import editor from "@/conponents/Editor";
 
 Vue.use(Viewer)
 Viewer.setDefaults({

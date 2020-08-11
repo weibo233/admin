@@ -19,7 +19,7 @@
         <el-table-column prop="author" label="作者"></el-table-column>
         <el-table-column prop="categoryId" label="类别">
           <template slot-scope="scope">
-            {{ scope.row.categoryId == "13" ? "建设法律" : "---" }}
+            {{ scope.row.categoryId == "10" ? "工程案例" : "---" }}
           </template>
         </el-table-column>
         <el-table-column label="操作" fixed="right" width="100">
@@ -53,7 +53,7 @@
     <el-dialog
       title="新增关于建设法律文件"
       :visible.sync="dialogVisible"
-       width="80%"
+      width="50%"
       :before-close="handleClose"
     >
       <el-form>
@@ -68,14 +68,14 @@
               <el-input v-model="DetailForm.title"></el-input>
             </el-form-item>
           </el-col>
-          <!-- <el-col :span="24">
+          <el-col :span="12">
             <el-form-item label-width="100px" label="简介:">
               <el-input
                 v-model="DetailForm.introduce"
                 type="textarea"
               ></el-input>
             </el-form-item>
-          </el-col> -->
+          </el-col>
           <el-col :span="12">
             <el-form-item label="发布时间:" label-width="100px">
               <el-date-picker
@@ -103,7 +103,7 @@
     <del-dialog
       title="是否要删除该数据"
       :dialogVisible="delDialogVisble"
-       @deter="DelDetailitem"
+      @deter="DelDetailitem"
       @cancel="cancel"
     ></del-dialog>
     <detail-dialog
@@ -127,7 +127,7 @@ import editor from "@/components/Editor";
 import delDialog from "@/components/myDialog";
 import detailDialog from "@/components/detailDialog";
 export default {
-  name: "Construction",
+  name: "project",
   components: {
     delDialog,
     detailDialog,
@@ -144,7 +144,7 @@ export default {
       DetailForm: {
         articleId: "", //文章ID
         author: "佚名", //作者
-        categoryId: "13", //分类ID    6-招标公告，7-资料下载，8-资质证书，9-荣誉证书，10-工程案例，12-行政法规，13-建设法律，14-国务院文件，15-部门规章，16-地方法规
+        categoryId: "10", //分类ID    6-招标公告，7-资料下载，8-资质证书，9-荣誉证书，10-工程案例，12-行政法规，13-建设法律，14-国务院文件，15-部门规章，16-地方法规
         content: "", //内容
         cover: "", //封面地址
         introduce: "", //简介
@@ -153,7 +153,7 @@ export default {
         title: "" //标题
       },
       searchForm: {
-        categoryId: "13",
+        categoryId: "10",
         pageSize: 5,
         targetPage: 1,
         pageCount: 1
@@ -181,10 +181,10 @@ export default {
         for (let key in this.DetailForm) {
           this.DetailForm[key] = "";
         }
-        this.DetailForm.categoryId = "13";
+        this.DetailForm.categoryId = "10";
         this.DetailForm.releaseTime = new Date();
-        this.DetailForm.author = "佚名"
-        this.DetailForm.content = ""
+        this.DetailForm.author = "佚名";
+        this.searchForm.content = "";
         this.getPageData();
       });
     },
@@ -243,7 +243,7 @@ export default {
     //编辑确认
     updateDetailOut(form) {
       updateDetail(form).then(res => {
-        if (res.data.code === "9999") {
+        if (res.data.code === "0000") {
           this.successMsg("修改成功");
           this.detailDialogVisble = false;
           this.getPageData();

@@ -10,12 +10,15 @@
       :on-remove="handleRemove"
       :on-success="handleUploadSuccess"
       :on-preview="handlePreview">
-      <el-button size="small" type="success">点击上传</el-button>
-      <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过10MB</div>
+      <rtp-row>
+          <rtp-col  :span="24">
+              <a :href="value">{{value}}</a>
+          </rtp-col>
+      </rtp-row>
+      <el-button size="small" type="success">点击更换</el-button>
+
+      <div slot="tip" class="el-upload__tip"></div>
     </el-upload>
-    <el-dialog :visible.sync="dialogVisible">
-      <img width="100%" :src="fileList[0].url" alt="">
-    </el-dialog>
   </div>
 </template>
 <script>
@@ -107,7 +110,13 @@ import { getUUID } from '@/utils'
     }
   }
 </script>
-<style>
+<style lang="scss" scoped>
+
+    a{
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
 
 </style>
 

@@ -21,7 +21,7 @@ import {mapActions,mapState,mapGetters} from 'vuex'
     ...mapActions("layOut",["setMenuDefaultActive"]),
       goHome(){
         this.setMenuDefaultActive("1-1")
-        this.$router.push({name:'CompanyProfile'})
+        this.$router.push({name:'enterpriseInformation'})
       }
     }
   }

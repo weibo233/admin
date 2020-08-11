@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-upload
-      action="https://wujiandong1.oss-cn-hangzhou.aliyuncs.com"
+      :action="dataObj.host"
       :data="dataObj"
       list-type="picture-card"
       :file-list="fileList"

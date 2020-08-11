@@ -8,15 +8,8 @@
     <el-form>
       <el-row>
         <el-col :span="12">
-        </el-col>
-        <el-col :span="12">
           <el-form-item label="标题:" label-width="100px">
             <el-input v-model="DetailForm.title"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label-width="100px" label="简介:">
-            <el-input v-model="DetailForm.introduce" type="textarea"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -31,6 +24,14 @@
             </el-date-picker>
           </el-form-item>
         </el-col>
+           <el-col :span="12">
+            <el-form-item label="图片:" label-width="100px">
+              <single-upload
+                v-model="DetailForm.cover"
+                :value="DetailForm.cover"
+              ></single-upload>
+            </el-form-item>
+          </el-col>
       </el-row>
     </el-form>
     <span slot="footer" class="dialog-footer">
@@ -41,7 +42,11 @@
 </template>
 <script>
 import { getDetail, getPage, updateDetail } from "@/utils/UrlApi/article";
+import singleUpload from "@/components/upload/singleUpload";
 export default {
+  components:{
+    singleUpload
+  },
   props: {
     title: String,
     dialogVisible: {
@@ -86,7 +91,7 @@ export default {
       }
   },
   created() {
-      console.log(this.articleId)
+      // console.log(this.articleId)
   }
 };
 </script>

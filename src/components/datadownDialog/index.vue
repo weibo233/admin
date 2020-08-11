@@ -7,15 +7,19 @@
   >
     <el-form>
       <el-row>
-        <el-col :span="12"> </el-col>
+        <el-col :span="12">
+          <el-form-item label="作者:" label-width="100px">
+            <el-input v-model="DetailForm.author"></el-input>
+          </el-form-item>
+        </el-col>
         <el-col :span="12">
           <el-form-item label="标题:" label-width="100px">
             <el-input v-model="DetailForm.title"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="12">
-          <el-form-item label-width="100px" label="作者:">
-            <el-input v-model="DetailForm.author"></el-input>
+        <el-col :span="24">
+          <el-form-item label-width="100px" label="简介:">
+            <el-input v-model="DetailForm.introduce" type="textarea"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -30,15 +34,16 @@
             </el-date-picker>
           </el-form-item>
         </el-col>
-      </el-row>
-      <el-row>
         <el-col :span="24">
           <el-form-item label="内容:" label-width="100px">
-            <quill-editor
-              ref="introduce"
+            <upload v-model="DetailForm.content"></upload>
+              <!-- <a :href="DetailForm.content">{{DetailForm.title}}</a> -->
+            <!-- <quill-editor
+              ref="business"
               v-model="DetailForm.content"
               :options="editorOption"
-            ></quill-editor>
+            ></quill-editor> -->
+            <!-- <editor v-model="DetailForm.content"></editor> -->
           </el-form-item>
         </el-col>
       </el-row>
@@ -51,6 +56,8 @@
 </template>
 <script>
 import { getDetail, getPage, updateDetail } from "@/utils/UrlApi/article";
+import upload from "@/components/upload/textupload"
+import editor from "@/components/Editor";
 export default {
   props: {
     title: String,
@@ -58,6 +65,10 @@ export default {
       type: Boolean,
       default: false
     }
+  },
+  components: {
+    editor,
+    upload
   },
   data() {
     return {

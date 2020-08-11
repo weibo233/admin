@@ -40,7 +40,7 @@
           </el-col>
           <el-col :span="12">
             <img
-              src="http://qiuchl.natapp1.cc/framework/all/captcha"
+              src="http://39.96.4.225/framework/all/captcha"
               style="cursor:pointer;height:40px;width:150px;"
               ref="captcha"
               alt="不支持图片验证码"
@@ -62,6 +62,7 @@
 <script>
 import Transition from "@/components/transition";
 import { Login } from "@/utils/UrlApi/Login";
+import md5 from "js-md5"
 export default {
   components: {
     Transition
@@ -98,7 +99,7 @@ export default {
     //更换验证码
     _getCaptcha() {
       let timer = new Date().getTime();
-      this.$refs.captcha.src = `http://qiuchl.natapp1.cc/framework/all/captcha?t=${timer}`;
+      this.$refs.captcha.src = `http://39.96.4.225/framework/all/captcha?t=${timer}`;
     },
     downZip() {
       this.$refs.downFile.click();
@@ -106,7 +107,11 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          Login(this.ruleForm)
+          Login({
+            name:this.ruleForm.name,
+            password:md5(this.ruleForm.password),
+            captcha:this.ruleForm.captcha
+          })
             .then(data => {
               if (data.data.code === "0000") {
                 this.successMsg("正在登陆");
@@ -194,5 +199,9 @@ export default {
       width: 320px;
     }
   }
+}
+
+.updatePwd{
+  cursor: pointer;
 }
 </style>

@@ -8,23 +8,33 @@
         class="demo-ruleForm"
         :rules="relus"
       >
-      <el-form-item label="用户名" prop="name">
-          <el-input type="text" v-model.number="ruleForm.name" autocomplete="off"></el-input>
+        <el-form-item label="旧密码" prop="oldPassword">
+          <el-input
+            type="password"
+            v-model.number="ruleForm.oldPassword"
+            autocomplete="off"
+          ></el-input>
         </el-form-item>
-        <el-form-item label="账号" prop="username">
-          <el-input type="text" v-model.number="ruleForm.username" autocomplete="off"></el-input>
+        <el-form-item label="新密码" prop="newPassword">
+          <el-input
+            type="password"
+            v-model.number="ruleForm.newPassword"
+            autocomplete="off"
+          ></el-input>
         </el-form-item>
-
-        <el-form-item label="密码" prop="password">
-          <el-input type="password" v-model.number="ruleForm.password" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="确认密码" prop="password2">
-          <el-input type="password" @keyup.enter.native="submitForm('ruleForm')" v-model.number="ruleForm.password2" autocomplete="off"></el-input>
+        <el-form-item label="确认密码" prop="verifyPassword">
+          <el-input
+            type="password"
+            v-model.number="ruleForm.verifyPassword"
+            autocomplete="off"
+          ></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button @click="submitForm('ruleForm')" type="primary">确定</el-button>
-          <el-button @click="resetForm('ruleForm')">取消</el-button>
-          <el-button @click="goLogin" type="warning">去登陆</el-button>
+          <el-button @click="submitForm('ruleForm')" type="primary"
+            >修改密码</el-button
+          >
+          <el-button @click="resetForm('ruleForm')">重置</el-button>
+          <!-- <el-button @click="goLogin" type="warning">去登陆</el-button> -->
         </el-form-item>
       </el-form>
     </div>
@@ -32,40 +42,67 @@
 </template>
 
 <script>
-import { Register as RegisterUp } from '@/utils/UrlApi/register'
+// import { Register as RegisterUp } from '@/utils/UrlApi/register'
+import { updatePwd } from "@/utils/UrlApi/Login";
+import md5 from "js-md5"
 export default {
-  name:'register',
+  name: "register",
   data() {
     return {
       ruleForm: {
-        name: "",
-        username: "",
-        password: "",
-        password2: ""
+        oldPassword: "",
+        newPassword: "",
+        verifyPassword: ""
       },
       relus: {
-       name:[
-          { validator: this.validateName, required: true, trigger: "blur" }
+        oldPassword: [
+          {
+            validator: this.validateoldPassword,
+            required: true,
+            trigger: "blur"
+          }
         ],
-        username: [
-          { validator: this.validateUsername, required: true, trigger: "blur" }
+        newPassword: [
+          {
+            validator: this.validatenewPassword,
+            required: true,
+            trigger: "blur"
+          }
         ],
-        password: [
-          { validator: this.validatePassword, required: true, trigger: "blur" }
-        ],
-        password2: [
-          { validator: this.validatePassword2, required: true, trigger: "blur" }
+        verifyPassword: [
+          {
+            validator: this.validateverifyPassword,
+            required: true,
+            trigger: "blur"
+          }
         ]
       }
     };
   },
-  mounted(){
-  },
+  mounted() {},
   methods: {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.setRegister()
+          updatePwd({
+            oldPassword:md5(this.ruleForm.oldPassword.toString()),
+            newPassword:md5(this.ruleForm.newPassword.toString()),
+            verifyPassword:md5(this.ruleForm.verifyPassword.toString())
+          })
+            .then(data => {
+              if(data.data.code === "0000") {
+                 this.successMsg("修改成功");
+                 this.ruleForm.oldPassword = "";
+                 this.ruleForm.newPassword = "";
+                 this.ruleForm.verifyPassword = "";
+                 this.$router.push("/");
+              }else{
+                this.errorMsg(data.data.msg)
+              }
+            })
+            .catch(err => {
+              this.errorMsg(err.msg);
+            });
         } else {
           // 验证不通过
           console.log("error submit!!");
@@ -73,50 +110,20 @@ export default {
         }
       });
     },
-    setRegister:function(){
-      RegisterUp(this.ruleForm).then(data=>{
-        console.log(data.data.errCode == '400')
-        if(data.data.errCode == '400'){
-          console.log(data.data)
-          this.errorMsg(data.data.errMsg)
-        }else{
-          this.goLogin()
-          this.successMsg(data.data.errMsg)
-        }
-      }).catch(err=>{
-        // this.errMsg(err.data.status)
-      })
-    },
-    goLogin(){
-      this.$router.push({name:'login'})
+    goLogin() {
+      this.$router.push({ name: "login" });
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
-     validateName(rule, value, callback){
-      if(value === ""){
-        callback(new Error("请输入用户名"));
-      }else if((value+"").length <3){
-        callback(new Error("用户名长度最少3位"));
-      }else{
-        callback()
-      }
-    },
-    validateUsername(rule, value, callback) {
+    validateoldPassword(rule, value, callback) {
       if (value === "") {
-        callback(new Error("请输入账号"));
+        callback(new Error("请输入密码"));
       } else {
-        if ((value + "").length < 6) {
-          callback(new Error("账号长度最少为6位"));
-        } else {
-          if (this.ruleForm.username !== "") {
-            this.$refs.ruleForm.validateField("checkPass");
-          }
-          callback();
-        }
+        callback();
       }
     },
-    validatePassword(rule, value, callback) {
+    validatenewPassword(rule, value, callback) {
       if (value === "") {
         callback(new Error("请输入密码"));
       } else if ((value + "").length < 6) {
@@ -125,10 +132,10 @@ export default {
         callback();
       }
     },
-    validatePassword2(rule, value, callback) {
+    validateverifyPassword(rule, value, callback) {
       if (value === "") {
         callback(new Error("请再次输入密码"));
-      } else if (value !== this.ruleForm.password) {
+      } else if (value !== this.ruleForm.newPassword) {
         callback(new Error("两次输入密码不一致!"));
       } else {
         callback();
@@ -142,9 +149,9 @@ export default {
 .login {
   width: 100%;
   height: 100%;
-  background: #ccc;
+  background: #fff;
   color: #fff;
-  background-image: url(../../assets/images/loginBackground.jpg);
+  // background-image: url(../../assets/images/loginBackground.jpg);
   background-size: 100% 100%;
   display: flex;
   justify-content: center;
@@ -152,7 +159,7 @@ export default {
   .formInput {
     width: 600px;
     height: 300px;
-    transform: translateY(-200px);
+    // transform: translateY(-200px);
   }
 }
 </style>

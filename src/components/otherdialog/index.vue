@@ -7,15 +7,24 @@
   >
     <el-form>
       <el-row>
-        <el-col :span="12"> </el-col>
+        <el-col :span="12">
+          <el-form-item label="作者:" label-width="100px">
+            <el-input v-model="DetailForm.author"></el-input>
+          </el-form-item>
+        </el-col>
         <el-col :span="12">
           <el-form-item label="标题:" label-width="100px">
             <el-input v-model="DetailForm.title"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="12">
-          <el-form-item label-width="100px" label="作者:">
-            <el-input v-model="DetailForm.author"></el-input>
+        <el-col :span="24">
+          <el-form-item label="上传封面:" label-width="100px">
+            <upload v-model="DetailForm.cover"></upload>
+          </el-form-item>
+        </el-col>
+        <el-col :span="24">
+          <el-form-item label-width="100px" label="简介:">
+            <el-input v-model="DetailForm.introduce" type="textarea"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -30,15 +39,14 @@
             </el-date-picker>
           </el-form-item>
         </el-col>
-      </el-row>
-      <el-row>
         <el-col :span="24">
           <el-form-item label="内容:" label-width="100px">
             <quill-editor
-              ref="introduce"
+              ref="business"
               v-model="DetailForm.content"
               :options="editorOption"
             ></quill-editor>
+            <!-- <editor v-model="DetailForm.content"></editor> -->
           </el-form-item>
         </el-col>
       </el-row>
@@ -51,6 +59,8 @@
 </template>
 <script>
 import { getDetail, getPage, updateDetail } from "@/utils/UrlApi/article";
+import upload from "@/components/upload/upload";
+import editor from "@/components/Editor";
 export default {
   props: {
     title: String,
@@ -59,7 +69,30 @@ export default {
       default: false
     }
   },
+  components: {
+    editor,
+    upload
+  },
   data() {
+    // 工具栏配置
+    // const toolbarOptions = [
+    //   ["bold", "italic", "underline", "strike"], // toggled buttons
+    //   ["blockquote", "code-block"],
+
+    //   [{ header: 1 }, { header: 2 }], // custom button values
+    //   [{ list: "ordered" }, { list: "bullet" }],
+    //   [{ script: "sub" }, { script: "super" }], // superscript/subscript
+    //   [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
+    //   [{ direction: "rtl" }], // text direction
+
+    //   [{ size: ["small", false, "large", "huge"] }], // custom dropdown
+    //   [{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+    //   [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+    //   [{ font: [] }],
+    //   [{ align: [] }],
+    //   ["clean"] // remove formatting button
+    // ];
     return {
       editorOption: {
         modules: {
