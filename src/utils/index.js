@@ -59,12 +59,12 @@ export function clearLoginInfo () {
 }
 
 
-export function client(data) {//data后端提供数据
-  return new OSS({
-    region: "oss-cn-hangzhou",
-    accessKeyId: data.accessid,
-    accessKeySecret:  data.policy,
-    bucket: "wujiandong1"
-  })
-}
+// export function client(data) {//data后端提供数据
+//   return new OSS({
+//     region: "oss-cn-hangzhou",
+//     accessKeyId: data.accessid,
+//     accessKeySecret:  data.policy,
+//     bucket: "wujiandong1"
+//   })
+// }
 

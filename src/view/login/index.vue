@@ -40,7 +40,7 @@
           </el-col>
           <el-col :span="12">
             <img
-              src="http://39.96.4.225/framework/all/captcha"
+              src="http://www.cxxm.net/framework/all/captcha"
               style="cursor:pointer;height:40px;width:150px;"
               ref="captcha"
               alt="不支持图片验证码"
@@ -49,7 +49,7 @@
           </el-col>
         </el-row>
         <el-form-item label-width="0">
-          <el-button type="primary" @click="submitForm('ruleForm')"
+          <el-button type="primary" @click="submitForm('ruleForm')"  v-loading="loading"
           class="submit"
             >确定</el-button
           >
@@ -70,6 +70,7 @@ export default {
   data() {
     return {
       isDownZip: false,
+      loading:false,
       bg: {},
       ruleForm: {
         name: "admin",
@@ -99,7 +100,7 @@ export default {
     //更换验证码
     _getCaptcha() {
       let timer = new Date().getTime();
-      this.$refs.captcha.src = `http://39.96.4.225/framework/all/captcha?t=${timer}`;
+      this.$refs.captcha.src = `http://www.cxxm.net/framework/all/captcha?t=${timer}`;
     },
     downZip() {
       this.$refs.downFile.click();
@@ -107,6 +108,7 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.loading = true
           Login({
             name:this.ruleForm.name,
             password:md5(this.ruleForm.password),
@@ -124,11 +126,13 @@ export default {
                 this.errorMsg(data.data.msg);
                 this._getCaptcha()
               }
+              this.loading=false
             })
             .catch(err => {
               throw new Error(err);
               this.errorMsg(err);
-              this._getCaptcha()
+              this._getCaptcha();
+              this.loading = false;
             });
         } else {
           return false;

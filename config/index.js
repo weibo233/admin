@@ -10,14 +10,14 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    // proxyTable: {
-    //   '/currentBottle': {
-		// 		target: 'http://localhost:3003', /* 跨域地址 */ 
-		// 		// pathRewrite: { '^/api': '' }, //url不用追加api
-		// 		changeOrigin: true, /*是否跨域*/  
-		// 		secure: false /*是否使用https*/
-		// 	}
-    // },
+    proxyTable: {
+      '/api': {
+				target: 'http://www.cxxm.net', /* 跨域地址 */ 
+				pathRewrite: { '^/api': '' }, //url不用追加api
+				changeOrigin: true, /*是否跨域*/  
+				secure: false /*是否使用https*/
+			}
+    },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST

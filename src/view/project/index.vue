@@ -118,7 +118,7 @@
     ></del-dialog>
     <detail-dialog
       ref="detailDialogPorps"
-      title="编辑荣誉证书信息"
+      title="编辑工程案例信息"
       :dialogVisible="detailDialogVisble"
       @cancel="cancel"
       @updateDetail="updateDetailOut"
@@ -159,7 +159,8 @@ export default {
         categoryId: "10", //分类ID    6-招标公告，7-资料下载，8-资质证书，9-荣誉证书，10-工程案例，12-行政法规，13-建设法律，14-国务院文件，15-部门规章，16-地方法规
         content: "", //内容
         cover: "", //封面地址
-        introduce: "", //简介
+        introduce: `建筑面积：        
+占地面积：`, //简介
         pictures: "", //图片集地址
         releaseTime: new Date(), //发布时间
         title: "" //标题
