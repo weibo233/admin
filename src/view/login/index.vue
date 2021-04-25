@@ -40,7 +40,7 @@
           </el-col>
           <el-col :span="12">
             <img
-              src="http://www.cxxm.net/framework/all/captcha"
+              src="http://101.32.179.244:9080/framework/all/captcha"
               style="cursor:pointer;height:40px;width:150px;"
               ref="captcha"
               alt="不支持图片验证码"
@@ -100,7 +100,7 @@ export default {
     //更换验证码
     _getCaptcha() {
       let timer = new Date().getTime();
-      this.$refs.captcha.src = `http://www.cxxm.net/framework/all/captcha?t=${timer}`;
+      this.$refs.captcha.src = `http://101.32.179.244:9080/framework/all/captcha?t=${timer}`;
     },
     downZip() {
       this.$refs.downFile.click();

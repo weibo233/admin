@@ -36,6 +36,8 @@ import 'viewerjs/dist/viewer.css'
 import "babel-polyfill"
 
 // import editor from "@/conponents/Editor";
+import request from "@/utils/HttpServe";
+Vue.prototype.$api = request
 
 Vue.use(Viewer)
 Viewer.setDefaults({

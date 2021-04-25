@@ -24,10 +24,10 @@ import OSS from 'ali-oss';
                 let _this =this;
                 _this.loading=true
                 var client = new OSS({
-                    region: 'oss-cn-hangzhou',
-                    accessKeyId: 'LTAI4G6EGRpKGynRm7MuSPS5',
-                    accessKeySecret: '2OrXpxZI1Bgznuy2EVSGfTe6WCK0Tf',
-                    bucket: 'wujiandong1'
+                    region: '',
+                    accessKeyId: '',
+                    accessKeySecret: '',
+                    bucket: ''
                 });
                 //获取文件信息
                 const files = document.getElementById("uploadImage")

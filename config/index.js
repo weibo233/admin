@@ -12,7 +12,10 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-				target: 'http://www.cxxm.net', /* 跨域地址 */ 
+        	// target: 'http://www.cxxm.net', /* 跨域地址 */ 
+				// target: 'http://49.233.67.60:9080', /* 跨域地址 */ 
+				// target: 'http://47.101.130.205:9080', /* 跨域地址 */ 
+				target: 'http://101.32.179.244:9080', /* 跨域地址 */ 
 				pathRewrite: { '^/api': '' }, //url不用追加api
 				changeOrigin: true, /*是否跨域*/  
 				secure: false /*是否使用https*/
